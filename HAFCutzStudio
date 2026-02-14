@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="ms" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HAFCutzStudio - Barbershop Premium Jiwa Rakyat</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --gold-primary: #C19A5B; 
+      --gold-light: #E0C08C;
+      --gold-dark: #9A7B48;
+      
+      --bg-main: #FAFAFA;
+      --bg-card: #FFFFFF;
+      --bg-section-alt: #F4F4F4;
+      
+      --text-dark: #1A1A1A;
+      --text-main: #4A4A4A;
+      --text-muted: #777777;
+      
+      --border-color: rgba(193, 154, 91, 0.25);
+      --shadow-soft: 0 8px 30px rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; line-height: 1.6; background: var(--bg-main); color: var(--text-main); overflow-x: hidden; }
+    h1, h2, h3, h4, .logo, .story-quote { font-family: 'Playfair Display', serif; }
+
+    /* NAVIGATION */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1.5rem 5%;
+      display: flex; justify-content: space-between; align-items: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%);
+      transition: all 0.4s ease;
+    }
+    .navbar.scrolled {
+      background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      padding: 1rem 5%; border-bottom: 1px solid rgba(0,0,0,0.05); box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+    .logo { font-size: 1.8rem; font-weight: 700; color: var(--gold-dark); letter-spacing: 2px; text-transform: uppercase; text-decoration: none; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-dark); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase; position: relative; padding: 0.5rem 0; transition: color 0.3s ease;
+    }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold-primary); transition: width 0.3s ease; }
+    .nav-links a:hover { color: var(--gold-dark); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .menu-toggle { display: none; flex-direction: column; justify-content: space-between; width: 30px; height: 21px; cursor: pointer; z-index: 1001; }
+    .menu-toggle span { display: block; width: 100%; height: 2px; background: var(--text-dark); transition: all 0.3s ease-in-out; }
+
+    /* HERO SECTION */
+    .hero {
+      height: 100vh; min-height: 600px; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 0 5%; position: relative;
+      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                  url('https://arleta.site/interactivelink/3412/Hero-Image-HAFCutzStudio.jpg') center/cover no-repeat;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/arabesque.png');
+      opacity: 0.15; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; animation: fadeInUp 1s ease-out forwards; opacity: 0; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero-badge {
+      display: inline-block; padding: 0.5rem 1.5rem; border: 1px solid var(--gold-primary);
+      color: #FFF; font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 2rem; border-radius: 4px; background: rgba(193, 154, 91, 0.3);
+      backdrop-filter: blur(5px); font-weight: 600;
+    }
+    .hero-title { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 700; color: #fff; margin-bottom: 1.5rem; line-height: 1.1; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .hero-title span { color: var(--gold-light); font-style: italic; }
+    .hero-subtitle { font-size: clamp(1rem, 3vw, 1.15rem); color: #EEEEEE; margin: 0 auto 3rem; font-weight: 400; max-width: 650px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+
+    /* BUTTONS */
+    .btn-primary, .submit-btn {
+      position: relative; overflow: hidden; padding: 1.2rem 3rem; 
+      background: var(--gold-primary); color: #FFFFFF; border: none; border-radius: 4px;
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; 
+      text-decoration: none; display: inline-block; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 4px 15px rgba(193, 154, 91, 0.4); cursor: pointer;
+    }
+    .btn-primary::before, .submit-btn::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transform: skewX(-25deg); transition: left 0.6s ease-in-out;
+    }
+    .btn-primary:hover, .submit-btn:hover { background: var(--gold-dark); transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 25px rgba(193, 154, 91, 0.3); color: #FFFFFF; }
+    .btn-primary:hover::before, .submit-btn:hover::before { left: 150%; }
+    .btn-primary:active, .submit-btn:active { transform: translateY(2px) scale(0.98); box-shadow: 0 5px 10px rgba(193, 154, 91, 0.2); }
+    .submit-btn { width: 100%; margin-top: 1rem; }
+
+    /* SECTIONS COMMON */
+    .section-padding { padding: 7rem 5%; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-label { font-size: 0.85rem; color: var(--gold-dark); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1rem; display: block; font-weight: 700; }
+    .section-title { font-size: clamp(2rem, 5vw, 3rem); color: var(--text-dark); font-weight: 700; line-height: 1.2; }
+
+    /* STORY SECTION */
+    .story-section { background: var(--bg-main); }
+    .story-container { max-width: 800px; margin: 0 auto; text-align: center; }
+    .story-quote { font-size: clamp(1.3rem, 4vw, 1.8rem); color: var(--gold-dark); font-style: italic; margin: 2.5rem 0; line-height: 1.6; }
+    .story-text p { font-size: 1.05rem; color: var(--text-main); margin-bottom: 1.5rem; }
+
+    /* VIP COMBO SECTION */
+    .services-section { background: var(--bg-section-alt); border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .vip-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .vip-card {
+      background: var(--bg-card); border: 1px solid rgba(0,0,0,0.05); padding: 3rem 2.5rem; border-radius: 8px;
+      transition: all 0.3s ease; position: relative; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: var(--shadow-soft);
+    }
+    .vip-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gold-primary);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+    }
+    .vip-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: var(--border-color); }
+    .vip-card:hover::before { transform: scaleX(1); }
+    .vip-card h3 { color: var(--text-dark); font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .vip-price { font-size: 2.2rem; font-weight: 700; color: var(--gold-dark); margin-bottom: 1rem; }
+    .vip-duration { align-self: flex-start; padding: 0.4rem 1.2rem; background: rgba(193, 154, 91, 0.1); color: var(--gold-dark); font-size: 0.8rem; border-radius: 50px; margin-bottom: 2rem; letter-spacing: 1px; font-weight: 600; }
+    .vip-features { list-style: none; flex-grow: 1; }
+    .vip-features li { font-size: 0.95rem; color: var(--text-main); margin-bottom: 1rem; padding-left: 1.8rem; position: relative; }
+    .vip-features li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--gold-primary); font-weight: bold; }
+
+    /* MODAL POPUP UMUM */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); z-index: 3000;
+      display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; }
+    .modal-content {
+      background: var(--bg-card); padding: 2.5rem 2rem 2rem; border-radius: 12px;
+      width: 90%; max-width: 400px; max-height: 85vh; overflow-y: auto; position: relative;
+      transform: translateY(20px); transition: transform 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 15px; right: 20px; font-size: 2rem;
+      cursor: pointer; color: var(--text-muted); line-height: 1; transition: 0.3s;
+    }
+    .modal-close:hover { color: var(--text-dark); }
+
+    /* Popup VIP */
+    #vip-modal-body { text-align: left; }
+    #vip-modal-body h3 { color: var(--text-dark); font-size: 1.6rem; margin-bottom: 0.5rem; text-align: center; }
+    #vip-modal-body .vip-price { font-size: 2rem; font-weight: 700; color: var(--gold-dark); margin-bottom: 1rem; text-align: center; }
+    #vip-modal-body .vip-duration { display: block; width: fit-content; margin: 0 auto 2rem; padding: 0.4rem 1.2rem; background: rgba(193, 154, 91, 0.1); color: var(--gold-dark); font-size: 0.8rem; border-radius: 50px; font-weight: 600; letter-spacing: 1px; }
+    #vip-modal-body .vip-features { list-style: none; padding: 0; }
+    #vip-modal-body .vip-features li { font-size: 0.95rem; color: var(--text-main); margin-bottom: 1rem; padding-left: 1.8rem; position: relative; }
+    #vip-modal-body .vip-features li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--gold-primary); font-weight: bold; }
+
+    /* Popup Produk */
+    #product-modal-body { text-align: center; }
+
+    /* A LA CARTE MENU */
+    .alacarte-section { background: var(--bg-main); }
+    .alacarte-container { max-width: 1000px; margin: 0 auto; }
+    .alacarte-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem 3rem; }
+    .menu-category h3 { font-size: 1.8rem; color: var(--text-dark); border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .menu-list { list-style: none; }
+    .menu-list li { display: flex; align-items: baseline; margin-bottom: 1rem; font-size: 1.05rem; }
+    .menu-item-name { color: var(--text-main); font-weight: 500; }
+    .menu-item-price { color: var(--gold-dark); font-weight: 700; }
+    .menu-spacer { flex-grow: 1; border-bottom: 1px dashed #CCCCCC; margin: 0 10px; position: relative; top: -4px; }
+
+    /* PRODUK SECTION */
+    .product-section { background: var(--bg-card); border-top: 1px solid rgba(0,0,0,0.05); }
+    .product-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .carousel-wrapper { position: relative; width: 100%; max-width: 450px; margin: 0 auto; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-soft); border: 1px solid rgba(0,0,0,0.05); background: #f9f9f9; }
+    .carousel-slide { display: flex; transition: transform 0.4s ease-in-out; width: 100%; }
+    .carousel-slide img { width: 100%; height: 400px; object-fit: cover; flex-shrink: 0; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; color: var(--gold-dark); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: all 0.3s ease; z-index: 10; }
+    .carousel-btn:hover { background: var(--gold-primary); color: #fff; transform: translateY(-50%) scale(1.1); }
+    .prev-btn { left: 15px; } .next-btn { right: 15px; }
+    .product-details { text-align: left; }
+    .badge-hot { display: inline-block; padding: 0.4rem 1rem; background: #e74c3c; color: #fff; font-size: 0.8rem; font-weight: 700; border-radius: 50px; letter-spacing: 1px; margin-bottom: 2rem; text-transform: uppercase; box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3); }
+    .product-item { margin-bottom: 1.8rem; padding-bottom: 1.8rem; border-bottom: 1px dashed rgba(0,0,0,0.1); }
+    .product-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .product-item h4 { color: var(--text-dark); font-size: 1.4rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .product-price { font-size: 1.3rem; font-weight: 700; color: var(--gold-dark); background: rgba(193, 154, 91, 0.1); padding: 0.2rem 0.8rem; border-radius: 4px; }
+    .product-item p { font-size: 1rem; color: var(--text-main); line-height: 1.7; }
+    .isi-warna { font-weight: 600; color: var(--text-dark); display: block; margin-bottom: 0.5rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* CONTACT & FORM */
+    .contact-section { background: var(--bg-section-alt); border-top: 1px solid rgba(0,0,0,0.05); }
+    .contact-container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .contact-info h3 { font-size: 2rem; color: var(--text-dark); margin-bottom: 2rem; }
+    .contact-item { margin-bottom: 2rem; }
+    .contact-item h4 { color: var(--gold-dark); font-size: 1rem; letter-spacing: 1px; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;}
+    .contact-item p { color: var(--text-main); font-size: 1rem; line-height: 1.8; margin-bottom: 0.5rem; }
+    
+    /* BUTTON LINKS (MAPS, WAZE, THREADS) */
+    .map-buttons { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .map-btn { padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; text-decoration: none; border-radius: 4px; border: 1px solid var(--border-color); transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; }
+    .gmaps-btn { background: #FFFFFF; color: var(--text-dark); }
+    .gmaps-btn:hover { border-color: #EA4335; color: #EA4335; box-shadow: 0 4px 10px rgba(234, 67, 53, 0.1); transform: translateY(-2px); }
+    .waze-btn { background: #FFFFFF; color: var(--text-dark); }
+    .waze-btn:hover { border-color: #10ac84; color: #10ac84; box-shadow: 0 4px 10px rgba(16, 172, 132, 0.1); transform: translateY(-2px); }
+    .threads-btn { background: #FFFFFF; color: var(--text-dark); }
+    .threads-btn:hover { border-color: #000000; color: #000000; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); transform: translateY(-2px); }
+
+    .booking-form { background: var(--bg-card); padding: 3rem; border: 1px solid rgba(0,0,0,0.05); border-radius: 8px; box-shadow: var(--shadow-soft); }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; color: var(--text-dark); font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: 600; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 1rem; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 4px; color: var(--text-dark); font-family: inherit; font-size: 1rem; transition: all 0.3s ease; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--gold-primary); box-shadow: 0 0 0 3px rgba(193, 154, 91, 0.15); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    /* FOOTER */
+    .footer { text-align: center; padding: 3rem 5%; background: var(--text-dark); color: #FFFFFF; }
+    .footer .logo { font-size: 1.5rem; display: block; margin-bottom: 1rem; color: var(--gold-light); }
+    .footer p { color: #BBBBBB; font-size: 0.85rem; }
+    .footer-social .threads-btn { background: transparent; color: #BBBBBB; border-color: rgba(255,255,255,0.2); margin-top: 1rem; }
+    .footer-social .threads-btn:hover { color: #FFFFFF; border-color: #FFFFFF; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: var(--text-dark); color: #FFF; padding: 1rem 2rem; border-radius: 4px; font-weight: 500;
+      z-index: 2000; opacity: 0; transition: all 0.4s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; width: 90%; max-width: 400px; border-left: 4px solid var(--gold-primary);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* RESPONSIVE & MOBILE LOGIC */
+    @media (max-width: 992px) { 
+      .contact-container { grid-template-columns: 1fr; gap: 3rem; } 
+    }
+    
+    @media (max-width: 768px) {
+      .section-padding { padding: 4rem 5%; } .section-header { margin-bottom: 3rem; }
+      .menu-toggle { display: flex; }
+      .nav-links {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh; background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); flex-direction: column; justify-content: center; align-items: center; gap: 2rem; transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid rgba(0,0,0,0.05); box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+      }
+      .nav-links.active { right: 0; }
+      .menu-toggle.active span:nth-child(1) { transform: translateY(9.5px) rotate(45deg); }
+      .menu-toggle.active span:nth-child(2) { opacity: 0; }
+      .menu-toggle.active span:nth-child(3) { transform: translateY(-9.5px) rotate(-45deg); }
+      
+      /* VIP GRID (MOBILE) */
+      .vip-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+      .vip-card { padding: 1.5rem 1rem; text-align: center; cursor: pointer; align-items: center; justify-content: center; }
+      .vip-card h3 { font-size: 1.1rem; line-height: 1.3; min-height: 2.8rem; display: flex; align-items: center; text-align: center; }
+      .vip-card .vip-price { font-size: 1.4rem; margin-bottom: 0.5rem; }
+      .vip-card .vip-duration, .vip-card .vip-features { display: none; }
+      .vip-card::after { 
+        content: 'Klik Detail'; display: inline-block; font-size: 0.7rem; color: var(--gold-dark); margin-top: 0.5rem; font-weight: 600;
+        background: rgba(193,154,91,0.15); padding: 0.3rem 0.8rem; border-radius: 50px;
+      }
+
+      .alacarte-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .booking-form { padding: 2rem 1.5rem; }
+      
+      /* PRODUCT SECTION (MOBILE) */
+      .product-container { grid-template-columns: 1fr; gap: 1rem; }
+      .carousel-wrapper { max-width: 100%; cursor: pointer; }
+      .carousel-slide img { height: 280px; }
+      .product-details { display: none; } 
+      .carousel-wrapper::after {
+        content: '👆 Klik untuk Info Produk'; position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+        background: rgba(193,154,91,0.9); color: #fff; padding: 0.4rem 1.2rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; pointer-events: none; z-index: 15;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <a href="#home" class="logo">HAFCutz</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#home" onclick="closeMenu()">Utama</a></li>
+      <li><a href="#story" onclick="closeMenu()">Cerita</a></li>
+      <li><a href="#services" onclick="closeMenu()">Pakej</a></li>
+      <li><a href="#alacarte" onclick="closeMenu()">A La Carte</a></li>
+      <li><a href="#produk" onclick="closeMenu()">Produk</a></li>
+      <li><a href="#contact" onclick="closeMenu()">Tempahan</a></li>
+    </ul>
+    <div class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">Barbershop Premium Jiwa Rakyat</div>
+      <h1 class="hero-title">Seni Dandanan Lelaki <span>Malaya</span></h1>
+      <p class="hero-subtitle">Kualiti antarabangsa, kemesraan anak jati. Nikmati layanan eksklusif kelas pertama tanpa rasa kekok. Datang santai, potong sampai ngam, sembang sampai lebam.</p>
+      <a href="#services" class="btn-primary">Pilih Pakej Anda</a>
+    </div>
+  </section>
+
+  <section class="section-padding story-section" id="story">
+    <div class="story-container">
+      <span class="section-label">Falsafah Kami</span>
+      <h2 class="section-title">Kualiti Taraf Dunia, Jiwa Kekal Lokal</h2>
+      <div class="story-quote">
+        "Di HAFCutz, tak kira siapa pun anda, melangkah masuk ke sini kami layan macam VIP. Itulah janji kitorang."
+      </div>
+      <div class="story-text">
+        <p>HAFCutzStudio ditubuhkan untuk lelaki yang mencari hasil dandanan yang tajam dan teliti, tapi tak mahu rimas dengan suasana kedai yang terlalu 'kaku'. Kami faham, kadang-kadang kita cuma nak port yang tenang untuk lepak sambil trim janggut dan rambut kasi kemas.</p>
+        <p>Dengan teknik guntingan bertaraf antarabangsa dan layanan mesra secawan kopi orang kita, kami pastikan setiap ringgit yang dibelanja berbaloi dengan kepuasan yang maksimum.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding services-section" id="services">
+    <div class="section-header">
+      <span class="section-label">Menu Eksklusif</span>
+      <h2 class="section-title">Pakej Bangsawan (VIP Combo)</h2>
+      <p style="color: var(--text-muted); margin-top: 1rem;">Layanan *full service* untuk anda rehat dan kembalikan seri muka.</p>
+    </div>
+
+    <div class="vip-grid">
+      <div class="vip-card" onclick="openVipModal(this)">
+        <h3>The Presidential</h3>
+        <div class="vip-price">RM 99</div>
+        <div class="vip-duration">⏱ 1 Jam 30 Minit</div>
+        <ul class="vip-features">
+          <li>Potongan Rambut Kasi Kemas (Haircut)</li>
+          <li>Rapikan Janggut (Beard Trim)</li>
+          <li>Cucian Rambut (Hair Wash)</li>
+          <li>Rawatan Seri Wajah (Facial)</li>
+          <li>Wax Telinga & Hidung</li>
+        </ul>
+      </div>
+
+      <div class="vip-card" onclick="openVipModal(this)">
+        <h3>The Deluxe</h3>
+        <div class="vip-price">RM 109</div>
+        <div class="vip-duration">⏱ 1 Jam 30 Minit</div>
+        <ul class="vip-features">
+          <li>Potongan Rambut Kasi Kemas (Haircut)</li>
+          <li>Rapikan Janggut (Beard Trim)</li>
+          <li>Cucian Rambut (Hair Wash)</li>
+          <li>Rawatan Rambut Lebat (Treatment)</li>
+          <li>Wax Telinga & Hidung</li>
+        </ul>
+      </div>
+
+      <div class="vip-card" onclick="openVipModal(this)">
+        <h3>The Luxury</h3>
+        <div class="vip-price">RM 169</div>
+        <div class="vip-duration">⏱ 2 Jam</div>
+        <ul class="vip-features">
+          <li>Potongan Rambut Kasi Kemas (Haircut)</li>
+          <li>Rapikan Janggut (Beard Trim)</li>
+          <li>Cucian Rambut (Hair Wash)</li>
+          <li>Rawatan Rambut & Wajah Combo</li>
+          <li>Wax Telinga & Hidung</li>
+        </ul>
+      </div>
+
+      <div class="vip-card" onclick="openVipModal(this)">
+        <h3>The Prestige</h3>
+        <div class="vip-price">RM 219</div>
+        <div class="vip-duration">⏱ 4 Jam</div>
+        <ul class="vip-features">
+          <li>Potongan Rambut Kasi Kemas (Haircut)</li>
+          <li>Rapikan Janggut (Beard Trim)</li>
+          <li>Warna Rambut Premium (Pilihan Ash/Tones)</li>
+          <li>Wax Telinga & Hidung</li>
+        </ul>
+      </div>
+
+      <div class="vip-card" onclick="openVipModal(this)">
+        <h3>The Luxe Royale</h3>
+        <div class="vip-price">RM 269</div>
+        <div class="vip-duration">⏱ 5 Jam</div>
+        <ul class="vip-features">
+          <li>Potongan Rambut Kasi Kemas (Haircut)</li>
+          <li>Rapikan Janggut (Beard Trim)</li>
+          <li>Rawatan Wajah Penuh (Facial)</li>
+          <li>Warna Rambut Premium (Pilihan Ash/Tones)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="vipModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeVipModal()">×</span>
+      <div id="vip-modal-body"></div>
+    </div>
+  </div>
+
+  <section class="section-padding alacarte-section" id="alacarte">
+    <div class="section-header">
+      <span class="section-label">Pilihan Gaya Bebas</span>
+      <h2 class="section-title">Menu Marhaen (A La Carte)</h2>
+    </div>
+
+    <div class="alacarte-container">
+      <div class="alacarte-grid">
+        <div class="menu-category">
+          <h3>Servis Asas & Gunting</h3>
+          <ul class="menu-list">
+            <li><span class="menu-item-name">Zero Skin Fade</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 25-30</span></li>
+            <li><span class="menu-item-name">Standard Fade</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 20</span></li>
+            <li><span class="menu-item-name">Classic Potong Biasa</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 15</span></li>
+            <li><span class="menu-item-name">Trim / Cukur Janggut</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 10-15</span></li>
+            <li><span class="menu-item-name">Cuci Rambut</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 10</span></li>
+            <li><span class="menu-item-name">Cuci Muka (Face Wash)</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 10</span></li>
+            <li><span class="menu-item-name">Black Mask (Buang Blackhead)</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 10</span></li>
+            <li><span class="menu-item-name">Wax Telinga & Hidung</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 15</span></li>
+          </ul>
+        </div>
+
+        <div class="menu-category">
+          <h3>Rawatan (Treatment)</h3>
+          <ul class="menu-list">
+            <li><span class="menu-item-name">Rawatan Keratin</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 179-199</span></li>
+            <li><span class="menu-item-name">Rawatan Wajah (Facial)</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 69</span></li>
+            <li><span class="menu-item-name">Rawatan Rambut Biasa</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 79</span></li>
+            <li><span class="menu-item-name">Hair Relaxing</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 79-89</span></li>
+            <li><span class="menu-item-name">Hair Rebonding</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 139-159</span></li>
+            <li><span class="menu-item-name">Korean Down Perm</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 159-199</span></li>
+            <li><span class="menu-item-name">Design Perm</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 129</span></li>
+            <li><span class="menu-item-name">Curly Perm (Kerinting)</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 129</span></li>
+          </ul>
+        </div>
+
+        <div class="menu-category">
+          <h3>Warna Rambut</h3>
+          <ul class="menu-list">
+            <li><span class="menu-item-name">Hitam Ori</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 49</span></li>
+            <li><span class="menu-item-name">Coklat (Brown)</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 59-79</span></li>
+            <li><span class="menu-item-name">Bleaching (Luntur Warna)</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 59-79</span></li>
+            <li><span class="menu-item-name">Highlight Tones</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 139</span></li>
+            <li><span class="menu-item-name">Premium Color</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 189</span></li>
+            <li><span class="menu-item-name">Ash Color</span> <div class="menu-spacer"></div> <span class="menu-item-price">RM 189</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding product-section" id="produk">
+    <div class="section-header">
+      <span class="section-label">Eksklusif HAFCutz</span>
+      <h2 class="section-title">Produk Keluaran Kami</h2>
+    </div>
+
+    <div class="product-container">
+      <div class="carousel-wrapper" onclick="openProductModal()">
+        <div class="carousel-slide" id="productCarousel">
+          <img src="https://arleta.site/interactivelink/3412/Product-Pomade-Clay-HAFCutzStudio-1.jpg" alt="Produk Pomade & Clay HAFCutz">
+          <img src="https://arleta.site/interactivelink/3412/Product-Pomade-Clay-HAFCutzStudio-2.jpg" alt="Produk Pomade & Clay HAFCutz 2">
+        </div>
+        <button class="carousel-btn prev-btn" onclick="event.stopPropagation(); moveSlide(-1)">❮</button>
+        <button class="carousel-btn next-btn" onclick="event.stopPropagation(); moveSlide(1)">❯</button>
+      </div>
+
+      <div class="product-details" id="desktop-product-details">
+        <div class="badge-hot">🔥 Laku Kerasss!</div>
+        <div class="product-item">
+          <h4>HAFCutz Pomade <span class="product-price">RM 30</span></h4>
+          <span class="isi-warna">📦 Isi Warna: Coklat</span>
+          <p>Dirumus khas untuk lelaki yang sukakan gaya rambut yang <strong>licin, rapi dan kemas</strong>. Senang nak bentuk semula dan mudah dicuci lepas guna.</p>
+        </div>
+        <div class="product-item">
+          <h4>HAFCutz Clay <span class="product-price">RM 30</span></h4>
+          <span class="isi-warna">📦 Isi Warna: Kelabu</span>
+          <p>Paling ngam untuk gaya rambut yang nampak <strong>natural, matte (tidak berkilat), dan bertekstur</strong>. Cengkaman kuat supaya rambut tak lari walau ditiup angin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal-overlay" id="productModal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeProductModal()">×</span>
+      <div id="product-modal-body"></div>
+    </div>
+  </div>
+
+  <section class="section-padding contact-section" id="contact">
+    <div class="section-header">
+      <span class="section-label">Jom Set Masa</span>
+      <h2 class="section-title">Tempah Slot Anda (Biar Kami Layan Macam VIP)</h2>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Lokasi & Waktu Operasi</h3>
+        <div class="contact-item">
+          <h4>Port Kami</h4>
+          <p>NO 6, JALAN JASA 27, MUTIARA RINI,<br>81300 SKUDAI JOHOR BAHRU.</p>
+          <div class="map-buttons">
+            <a href="https://maps.google.com/?q=NO+6,+JALAN+JASA+27,+MUTIARA+RINI,+81300+SKUDAI+JOHOR+BAHRU" target="_blank" class="map-btn gmaps-btn">📍 Google Maps</a>
+            <a href="https://waze.com/ul?q=NO+6+JALAN+JASA+27+MUTIARA+RINI+81300+SKUDAI+JOHOR+BAHRU&navigate=yes" target="_blank" class="map-btn waze-btn">🚗 Waze</a>
+          </div>
+        </div>
+        <div class="contact-item">
+          <h4>Talian Terus (Roger Kami)</h4>
+          <p>WhatsApp: +60 11-2727 6272</p>
+        </div>
+        <div class="contact-item">
+          <h4>Waktu Beroperasi</h4>
+          <p>Isnin - Ahad: 11:00 Pagi - 10:00 Malam</p>
+        </div>
+        
+        <div class="contact-item">
+          <h4>Media Sosial</h4>
+          <div class="map-buttons">
+            <a href="https://www.threads.com/@hafcutzstudio" target="_blank" class="map-btn threads-btn">
+              @ Threads
+            </a>
+          </div>
+        </div>
+        
+      </div>
+      
+      <form class="booking-form" id="booking-form">
+        <div class="form-group">
+          <label for="name">Nama Penuh</label>
+          <input type="text" id="name" required placeholder="Nama panggil pun boleh">
+        </div>
+        <div class="form-group">
+          <label for="phone">Nombor Telefon (Boleh WhatsApp)</label>
+          <input type="tel" id="phone" required placeholder="Contoh: 0123456789">
+        </div>
+        <div class="form-group">
+          <label for="service">Pilihan Servis</label>
+          <select id="service" required>
+            <option value="">-- Nak buat apa hari ni bos? --</option>
+            <optgroup label="Pakej Bangsawan (VIP)">
+              <option value="presidential">The Presidential (RM 99)</option>
+              <option value="deluxe">The Deluxe (RM 109)</option>
+              <option value="luxury">The Luxury (RM 169)</option>
+              <option value="prestige">The Prestige (RM 219)</option>
+              <option value="luxeroyale">The Luxe Royale (RM 269)</option>
+            </optgroup>
+            <optgroup label="Menu Marhaen">
+              <option value="alacarte">A La Carte (Kasi nyatakan kat bawah)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date">Tarikh Nak Datang</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Nota Tambahan</label>
+          <textarea id="message" placeholder="Nak selit beli pomade/clay? Atau ada gaya spesifik dalam kepala, taip kat sini."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Sahkan Tempahan (Kasi Jadi!)</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <a href="#home" class="logo" style="text-decoration:none;">HAFCutzStudio</a>
+    <div class="footer-social">
+      <a href="https://www.threads.com/@hafcutzstudio" target="_blank" class="map-btn threads-btn">@ Ikuti Kami Di Threads</a>
+    </div>
+    <p style="margin-top: 1.5rem;">© 2024 HAFCutzStudio. Semua Hak Cipta Terpelihara. | Gaya Premium, Harga Marhaen.</p>
+  </footer>
+
+  <div class="toast" id="toast">
+    Membuka WhatsApp untuk menghantar tempahan...
+  </div>
+
+  <script>
+    // --- NAV MENU SCRIPT ---
+    function toggleMenu() {
+      document.getElementById('nav-links').classList.toggle('active');
+      document.getElementById('menu-toggle').classList.toggle('active');
+    }
+
+    function closeMenu() {
+      document.getElementById('nav-links').classList.remove('active');
+      document.getElementById('menu-toggle').classList.remove('active');
+    }
+
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        document.getElementById('navbar').classList.add('scrolled');
+      } else {
+        document.getElementById('navbar').classList.remove('scrolled');
+      }
+    });
+
+    // --- VIP MODAL SCRIPT (KHAS MOBILE) ---
+    function openVipModal(cardElement) {
+      if (window.innerWidth > 768) return; 
+      
+      const modal = document.getElementById('vipModal');
+      const modalBody = document.getElementById('vip-modal-body');
+      
+      modalBody.innerHTML = cardElement.innerHTML;
+      
+      modal.style.display = 'flex';
+      setTimeout(() => { modal.classList.add('active'); }, 10);
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeVipModal() {
+      const modal = document.getElementById('vipModal');
+      modal.classList.remove('active');
+      setTimeout(() => { modal.style.display = 'none'; }, 300);
+      document.body.style.overflow = 'auto'; 
+    }
+
+    // --- PRODUCT MODAL SCRIPT (KHAS MOBILE) ---
+    function openProductModal() {
+      if (window.innerWidth > 768) return; 
+      
+      const modal = document.getElementById('productModal');
+      const modalBody = document.getElementById('product-modal-body');
+      
+      const detailsHTML = document.getElementById('desktop-product-details').innerHTML;
+      modalBody.innerHTML = detailsHTML;
+      
+      modal.style.display = 'flex';
+      setTimeout(() => { modal.classList.add('active'); }, 10);
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeProductModal() {
+      const modal = document.getElementById('productModal');
+      modal.classList.remove('active');
+      setTimeout(() => { modal.style.display = 'none'; }, 300);
+      document.body.style.overflow = 'auto'; 
+    }
+
+    // --- TUTUP MODAL JIKA TEKAN KAWASAN LUAR ---
+    window.onclick = function(event) {
+      const vipModal = document.getElementById('vipModal');
+      const productModal = document.getElementById('productModal');
+      if (event.target == vipModal) closeVipModal();
+      if (event.target == productModal) closeProductModal();
+    }
+
+    // --- CAROUSEL / SLIDER SCRIPT ---
+    let slideIndex = 0;
+    function moveSlide(step) {
+      const slides = document.querySelectorAll('#productCarousel img');
+      const totalSlides = slides.length;
+      slideIndex += step;
+      
+      if (slideIndex >= totalSlides) {
+        slideIndex = 0;
+      } else if (slideIndex < 0) {
+        slideIndex = totalSlides - 1;
+      }
+      
+      const carousel = document.getElementById('productCarousel');
+      carousel.style.transform = `translateX(-${slideIndex * 100}%)`;
+    }
+
+    // --- BOOKING FORM SCRIPT ---
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const phone = document.getElementById('phone').value;
+      const serviceSelect = document.getElementById('service');
+      const service = serviceSelect.options[serviceSelect.selectedIndex].text;
+      const date = document.getElementById('date').value;
+      const message = document.getElementById('message').value || "Tiada nota tambahan";
+
+      const whatsappMessage = 
+        `*Tempahan Baru HAFCutzStudio* 💈\n\n` +
+        `*Nama:* ${name}\n` +
+        `*No. Tel:* ${phone}\n` +
+        `*Servis:* ${service}\n` +
+        `*Tarikh:* ${date}\n` +
+        `*Nota Tambahan:* ${message}\n\n` +
+        `_Sila semak slot kekosongan untuk tarikh di atas bos._`;
+
+      const encodedMessage = encodeURIComponent(whatsappMessage);
+      const whatsappNumber = "601127276272";
+      const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+
+      window.open(whatsappLink, '_blank');
+      this.reset();
+    });
+
+    const dateInput = document.getElementById('date');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+  </script>
+</body>
+</html>
